@@ -216,3 +216,12 @@ h2.monospace {
  .mr-2 {
    margin-right: 0.4em;
  }
+ .ml-2 {
+   margin-left: 0.4em;
+ }
+ .fit-content {
+   width: fit-content;
+ }
+ .opa-5 {
+   opacity: 0.5;
+ }
