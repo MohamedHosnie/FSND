@@ -3,54 +3,128 @@
 {% block content %}
   <div class="form-wrapper">
     <form class="form" method="post" action="/venues/{{venue.id}}/edit">
+      {{ form.csrf_token }}
       <h3 class="form-heading">Edit venue <em>{{ venue.name }}</em> <a href="{{ url_for('index') }}" title="Back to homepage"><i class="fa fa-home pull-right"></i></a></h3>
-      <div class="form-group">
-        <label for="name">Name</label>
+      <div class="form-group {% if form.name.errors %}has-error{% endif %}">
+        <label class="control-label" for="name">Name</label>
         {{ form.name(class_ = 'form-control', autofocus = true) }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.name.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
       <div class="form-group">
-          <label>City & State</label>
+          <label class="control-label">City & State</label>
           <div class="form-inline">
-            <div class="form-group">
+            <div class="form-group {% if form.city.errors %}has-error{% endif %}">
               {{ form.city(class_ = 'form-control', placeholder='City', autofocus = true) }}
             </div>
-            <div class="form-group">
+            <div class="form-group {% if form.state.errors %}has-error{% endif %}">
               {{ form.state(class_ = 'form-control', placeholder='State', autofocus = true) }}
             </div>
+            <span class="help-block">
+              <ul class="validation-list">
+                {% for error in form.city.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+                {% for error in form.state.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            </span>
           </div>
       </div>
-      <div class="form-group">
-        <label for="address">Address</label>
+      <div class="form-group {% if form.address.errors %}has-error{% endif %}">
+        <label class="control-label" for="address">Address</label>
         {{ form.address(class_ = 'form-control', autofocus = true) }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.address.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
-      <div class="form-group">
-          <label for="phone">Phone</label>
+      <div class="form-group {% if form.phone.errors %}has-error{% endif %}">
+          <label class="control-label" for="phone">Phone</label>
           {{ form.phone(class_ = 'form-control', placeholder='xxx-xxx-xxxx', autofocus = true) }}
+          <span class="help-block">
+            <ul class="validation-list">
+              {% for error in form.phone.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </span>
       </div>
-      <div class="form-group">
-        <label for="image_link">Image Link</label>
+      <div class="form-group {% if form.image_link.errors %}has-error{% endif %}">
+        <label class="control-label" for="image_link">Image Link</label>
         {{ form.image_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.image_link.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
-      <div class="form-group">
-        <label for="genres">Genres</label>
+      <div class="form-group {% if form.genres.errors %}has-error{% endif %}">
+        <label class="control-label" for="genres">Genres</label>
         <small>Ctrl+Click to select multiple</small>
         {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', autofocus = true) }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.genres.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
-      <div class="form-group">
-          <label for="facebook_link">Facebook Link</label>
+      <div class="form-group {% if form.facebook_link.errors %}has-error{% endif %}">
+          <label class="control-label" for="facebook_link">Facebook Link</label>
           {{ form.facebook_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+          <span class="help-block">
+            <ul class="validation-list">
+              {% for error in form.facebook_link.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </span>
       </div>
-      <div class="form-group">
-        <label for="website">Website</label>
+      <div class="form-group {% if form.website.errors %}has-error{% endif %}">
+        <label class="control-label" for="website">Website</label>
         {{ form.website(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.website.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
-      <div class="form-group">
-        <label for="seeking_talent">Seeking Talent</label>
+      <div class="form-group {% if form.seeking_talent.errors %}has-error{% endif %}">
+        <label class="control-label" for="seeking_talent">Seeking Talent</label>
         {{ form.seeking_talent(class_ = 'form-check', style='margin-left: 10px;') }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.seeking_talent.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
-      <div class="form-group">
-        <label for="seeking_description">Seeking Description</label>
+      <div class="form-group {% if form.seeking_description.errors %}has-error{% endif %}">
+        <label class="control-label" for="seeking_description">Seeking Description</label>
         {{ form.seeking_description(class_ = 'form-control', autofocus = true) }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.seeking_description.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
       <input type="submit" value="Edit Venue" class="btn btn-primary btn-lg btn-block">
     </form>
