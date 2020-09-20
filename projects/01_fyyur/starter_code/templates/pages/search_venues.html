@@ -8,7 +8,7 @@
 		<a href="/venues/{{ venue.id }}">
 			<i class="fas fa-music"></i>
 			<div class="item">
-				<h5 style="display: inline-block;">{{ venue.name }}</h5>
+				<h5 class="inline-block">{{ venue.name }}</h5>
 				{% if venue.num_upcoming_shows > 0 %}
 				<span class="label label-primary ml-2">{{ venue.num_upcoming_shows }} upcoming</span>
 				{% else %}

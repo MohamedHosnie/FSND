@@ -303,7 +303,7 @@ def create_venue_submission():
   else:
     return redirect(url_for('show_venue', venue_id = data.id))
 
-@app.route('/venues/<venue_id>', methods=['DELETE', 'POST'])
+@app.route('/venues/<int:venue_id>', methods=['DELETE', 'POST'])
 def delete_venue(venue_id):
   error = False
   try:
@@ -388,9 +388,13 @@ def edit_venue_submission(venue_id):
 @app.route('/artists')
 def artists():
   data = db.session.query(
-    Artist.id,
-    Artist.name
-    ).all()
+      Artist.id,
+      Artist.name,
+      func.count(Show.id).label('num_upcoming_shows')
+      ).join(Show, isouter=True).group_by(
+        Artist.id, 
+        Artist.name
+        ).all()
   
   return render_template('pages/artists.html', artists=data)
 
@@ -562,6 +566,27 @@ def create_artist_submission():
     return render_template('forms/new_artist.html', form=form)
   else:
     return redirect(url_for('show_artist', artist_id = data.id))
+
+@app.route('/artists/<int:artist_id>', methods=['DELETE', 'POST'])
+def delete_artist(artist_id):
+  error = False
+  try:
+    artist = db.session.query(Artist).get(artist_id)
+    db.session.delete(artist)
+    db.session.commit()
+    flash('Artist ' + artist.name + ' was successfully deleted!', 'success')
+  except:
+    db.session.rollback()
+    flash('An error occurred. Artist ' + artist.name + ' could not be deleted.', 'danger')
+    print(sys.exc_info())
+    error = True
+  finally:
+    db.session.close()
+
+  if error:
+    return redirect(url_for('show_artist', artist_id = artist_id))
+  else:
+    return redirect(url_for('artists'))
 
 #  Update Artists
 #  ----------------------------------------------------------------
