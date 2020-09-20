@@ -1,10 +1,12 @@
 {% extends 'layouts/main.html' %}
-{% block title %}Venue Search{% endblock %}
+{% block title %}{{ venue.name }} | Venue{% endblock %}
 {% block content %}
 <div class="row">
 	<div class="col-sm-6">
 		<h1 class="monospace">
-			{{ venue.name }}
+			{{ venue.name }} 
+			<form method="post" class="form-inline pull-right"><button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button></form>
+			<a href="/venues/{{ venue.id }}/edit" class="btn btn-sm btn-primary pull-right mr-2"><i class="fas fa-pen"></i></a>
 		</h1>
 		<p class="subtitle">
 			ID: {{ venue.id }}
