@@ -4,7 +4,7 @@ window.parseISOString = function parseISOString(s) {
 };
 
 $(".datetime-picker").Zebra_DatePicker({
-  format: 'Y-m-d H:i:s',
-  direction: 1
+  format: 'Y-m-d H:iA',
+  // direction: 1
 });
   

@@ -3,20 +3,42 @@
 {% block content %}
   <div class="form-wrapper">
     <form method="post" class="form">
+      {{ form.csrf_token }}
       <h3 class="form-heading">List a new show</h3>
-      <div class="form-group">
-        <label for="artist_id">Artist ID</label>
+      <div class="form-group {% if form.artist_id.errors %}has-error{% endif %}">
+        <label class="control-label" for="artist_id">Artist ID</label>
         <small>ID can be found on the Artist's Page</small>
         {{ form.artist_id(class_ = 'form-control', autofocus = true) }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.artist_id.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
-      <div class="form-group">
-        <label for="venue_id">Venue ID</label>
+      <div class="form-group {% if form.venue_id.errors %}has-error{% endif %}">
+        <label class="control-label" for="venue_id">Venue ID</label>
         <small>ID can be found on the Venue's Page</small>
         {{ form.venue_id(class_ = 'form-control', autofocus = true) }}
+        <span class="help-block">
+          <ul class="validation-list">
+            {% for error in form.venue_id.errors %}
+              <li>{{ error }}</li>
+            {% endfor %}
+          </ul>
+        </span>
       </div>
-      <div class="form-group">
-          <label for="start_time">Start Time</label>
+      <div class="form-group {% if form.start_time.errors %}has-error{% endif %}">
+          <label class="control-label" for="start_time">Start Time</label>
           {{ form.start_time(class_ = 'form-control datetime-picker', placeholder='YYYY-MM-DD HH:MM:SS', autofocus = true) }}
+          <span class="help-block">
+            <ul class="validation-list">
+              {% for error in form.start_time.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </span>
           <div class="container"></div>
         </div>
       <input type="submit" value="Create Venue" class="btn btn-primary btn-lg btn-block">

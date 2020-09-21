@@ -85,15 +85,18 @@ class Genre(Enum):
 #  ----------------------------------------------------------------
 class ShowForm(FlaskForm):
     artist_id = StringField(
-        'artist_id'
+        'artist_id',
+        validators=[DataRequired()]
     )
     venue_id = StringField(
-        'venue_id'
+        'venue_id',
+        validators=[DataRequired()]
     )
     start_time = DateTimeField(
         'start_time',
         validators=[DataRequired()],
-        default= datetime.today()
+        default= datetime.today(),
+        format='%Y-%m-%d %I:%M%p'
     )
 
 class VenueForm(FlaskForm):
