@@ -134,17 +134,8 @@ def search_venues():
   data = []
 
   if term == '':
-    data = db.session.query(
-      Venue.id,
-      Venue.name,
-      func.count(Show.id).label('num_upcoming_shows')
-      ).join(Show, 
-        and_(Show.start_time > datetime.now(), Venue.id == Show.venue_id),
-        isouter=True
-      ).group_by(
-        Venue.id, 
-        Venue.name
-        ).all()
+    return redirect(url_for('venues'))
+
   else:
     data = db.session.query(
       Venue.id,
@@ -351,17 +342,8 @@ def search_artists():
   data = []
 
   if term == '':
-    data = db.session.query(
-      Artist.id,
-      Artist.name,
-      func.count(Show.id).label('num_upcoming_shows')
-      ).join(Show,
-        and_(Show.start_time > datetime.now(), Artist.id == Show.artist_id),
-        isouter=True
-      ).group_by(
-        Artist.id, 
-        Artist.name
-        ).all()
+    return redirect(url_for('artists'))
+    
   else:
     data = db.session.query(
       Artist.id,
