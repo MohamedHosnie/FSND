@@ -67,20 +67,26 @@ One note before you delve into your tasks: for each endpoint you are expected to
 9. Create error handlers for all expected errors including 400, 404, 422 and 500. 
 
 REVIEW_COMMENT
-```
-This README is missing documentation of your endpoints. Below is an example for your endpoint to get all categories. Please use it as a reference for creating your documentation and resubmit your code. 
 
-Endpoints
+## Documentation
+### Endpoints
+
 GET '/categories'
+
 GET '/questions'
+
 POST '/questions'
+
 DELETE '/questions/<question_id>'
+
 GET '/categories/<category_id>/questions'
+
 POST '/quizzes'
 
-GET '/categories'
+### GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
+```json
 { "categories": {
     "1": "Science",       
     "2": "Art",
@@ -90,10 +96,12 @@ GET '/categories'
     "6": "Sports"
   },
   "success": true }
+```
 
-GET '/questions'
+### GET '/questions'
 - Fetches an array of questions with a max of 10 per page (page number is sent as a query parameter ex: /questions?page=3)
 - Returns: An array of questions, categories and total number of questions
+```json
 { "categories": {
     "1": "Science",
     "2": "Art",
@@ -176,8 +184,9 @@ GET '/questions'
   ],
   "success": true,
   "total_questions": 19 }
+```
 
-POST '/questions'
+### POST '/questions'
 - Has two functionalities based on the request body data, if supplied 'searchTerm' it functions as a search gets questions containing 'searchTerm' as a substring of the question, also if supplied {'question', 'answer', 'category', 'difficulty'} it creates a new question with the supplied values.
 - Request Body: 
   question: String
@@ -185,7 +194,9 @@ POST '/questions'
   category: Integer
   difficulty: Integer
 - Returns: if used for search returns a list of questions containing the search term as a substring of the question, also if used for creating a new question returns the id of the created question.
-Search result: { "questions": [
+##### Search result:
+```json
+{ "questions": [
     {
       "answer": "Edward Scissorhands",
       "category": 5,
@@ -238,21 +249,27 @@ Search result: { "questions": [
   ],
   "success": true,
   "total_questions": 7 }
-Create result: { "created": 25,
+```
+##### Create result:
+```json
+{ "created": 25,
   "success": true }
+```
 
-
-DELETE '/questions/<question_id>'
+### DELETE '/questions/<question_id>'
 - Deletes the question with the id supplied
 - Request Arguments: <question_id> the id of the qestion to delete
 - Returns: the id of the deleted question
+```json
 { "deleted": 2,
   "success": true }
+```
 
-GET '/categories/<category_id>/questions'
+### GET '/categories/<category_id>/questions'
 - Retrieves all questions under the category with the supplied <category_id>
 - Request Arguments: <category_id> the id of the category to get it's questions
 - Returns: a list of all questions under the category with the supplied id
+```json
 { "current_category": 2,
   "questions": [
     {
@@ -293,13 +310,15 @@ GET '/categories/<category_id>/questions'
   ],
   "success": true,
   "total_questions": 5 }
+```
 
-POST '/quizzes'
+### POST '/quizzes'
 - Retrieves a random question under the category with the supplied category id and not one of the supplied list of previous questions
 - Request Body: 
   previous_questions: [Integer]
   quiz_category: Category (ex. {'id': 1, 'type': 'Art'})
 - Returns: returns a random question
+```json
 { "question": {
     "answer": "Escher",
     "category": 2,
@@ -308,30 +327,36 @@ POST '/quizzes'
     "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
   },
   "success": true }
+```
 
-Errors
+## Errors
 Bad Request 400
+
 Not Found 404
+
 Unprocessable 422
 
-Bad Request
+### Bad Request
+```json
 { "error": 400,
   "message": "bad request",
   "success": false }
+```
 
-Not Found
+### Not Found
+```json
 { "error": 404,
   "message": "not found",
   "success": false }
+```
 
-Unprocessable
+### Unprocessable
+```json
 { "error": 422,
   "message": "unprocessable",
   "success": false }
-
 ```
-
-
+  
 ## Testing
 To run the tests, run
 ```
