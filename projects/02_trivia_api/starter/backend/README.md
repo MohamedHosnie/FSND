@@ -73,12 +73,13 @@ This README is missing documentation of your endpoints. Below is an example for 
 Endpoints
 GET '/categories'
 GET '/questions'
+POST '/questions'
 DELETE '/questions/<question_id>'
-POST ...
+GET '/categories/<category_id>/questions'
+POST '/quizzes'
 
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
-- Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
 { "categories": {
     "1": "Science",       
@@ -92,7 +93,6 @@ GET '/categories'
 
 GET '/questions'
 - Fetches an array of questions with a max of 10 per page (page number is sent as a query parameter ex: /questions?page=3)
-- Request Arguments: None
 - Returns: An array of questions, categories and total number of questions
 { "categories": {
     "1": "Science",
@@ -177,11 +177,136 @@ GET '/questions'
   "success": true,
   "total_questions": 19 }
 
+POST '/questions'
+- Has two functionalities based on the request body data, if supplied 'searchTerm' it functions as a search gets questions containing 'searchTerm' as a substring of the question, also if supplied {'question', 'answer', 'category', 'difficulty'} it creates a new question with the supplied values.
+- Request Body: 
+  question: String
+  answer: String
+  category: Integer
+  difficulty: Integer
+- Returns: if used for search returns a list of questions containing the search term as a substring of the question, also if used for creating a new question returns the id of the created question.
+Search result: { "questions": [
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    },
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    },
+    {
+      "answer": "ok",
+      "category": 2,
+      "difficulty": 1,
+      "id": 24,
+      "question": "what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 7 }
+Create result: { "created": 25,
+  "success": true }
+
+
 DELETE '/questions/<question_id>'
 - Deletes the question with the id supplied
 - Request Arguments: <question_id> the id of the qestion to delete
 - Returns: the id of the deleted question
 { "deleted": 2,
+  "success": true }
+
+GET '/categories/<category_id>/questions'
+- Retrieves all questions under the category with the supplied <category_id>
+- Request Arguments: <category_id> the id of the category to get it's questions
+- Returns: a list of all questions under the category with the supplied id
+{ "current_category": 2,
+  "questions": [
+    {
+      "answer": "Escher",
+      "category": 2,
+      "difficulty": 1,
+      "id": 16,
+      "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+    },
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    },
+    {
+      "answer": "One",
+      "category": 2,
+      "difficulty": 4,
+      "id": 18,
+      "question": "How many paintings did Van Gogh sell in his lifetime?"
+    },
+    {
+      "answer": "Jackson Pollock",
+      "category": 2,
+      "difficulty": 2,
+      "id": 19,
+      "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+    },
+    {
+      "answer": "ok",
+      "category": 2,
+      "difficulty": 1,
+      "id": 24,
+      "question": "what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 5 }
+
+POST '/quizzes'
+- Retrieves a random question under the category with the supplied category id and not one of the supplied list of previous questions
+- Request Body: 
+  previous_questions: [Integer]
+  quiz_category: Category (ex. {'id': 1, 'type': 'Art'})
+- Returns: returns a random question
+{ "question": {
+    "answer": "Escher",
+    "category": 2,
+    "difficulty": 1,
+    "id": 16,
+    "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+  },
   "success": true }
 
 Errors
