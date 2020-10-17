@@ -329,7 +329,7 @@ POST '/quizzes'
   "success": true }
 ```
 
-## Errors
+### Errors
 Bad Request 400
 
 Not Found 404
