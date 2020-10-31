@@ -43,12 +43,20 @@ class Drink(db.Model):
     recipe =  Column(String(180), nullable=False)
 
     '''
+    __init__()
+        initialize a new Drink object
+    '''
+    def __init__(self, title, recipe):
+        self.title = title
+        self.recipe = recipe
+
+    '''
     short()
         short form representation of the Drink model
     '''
     def short(self):
-        print(json.loads(self.recipe))
-        short_recipe = [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
+        recipes = json.loads(self.recipe)
+        short_recipe = [{'color': recipe.get('color'), 'parts': recipe.get('parts')} for recipe in recipes]
         return {
             'id': self.id,
             'title': self.title,
@@ -67,6 +75,29 @@ class Drink(db.Model):
         }
 
     '''
+    validate_recipe()
+        make sure that recipe contains the correct data
+    '''
+    def validate_recipe(self):
+        recipes_json = json.loads(self.recipe)
+        recipes = []
+
+        if not isinstance(recipes, list):
+            recipes.append(recipes)
+        else:
+            recipes = recipes_json
+
+        for recipe in recipes:
+            recipe_name = recipe.get('name')
+            recipe_color = recipe.get('color')
+            recipe_parts = recipe.get('parts')
+            # print(isinstance(recipe_name, str), isinstance(recipe_color, str), isinstance(recipe_parts, int))
+            if not (isinstance(recipe_name, str) and isinstance(recipe_color, str) and isinstance(recipe_parts, int)):
+                raise Exception('wrong recipe')
+
+        self.recipe = json.dumps(recipes)
+
+    '''
     insert()
         inserts a new model into a database
         the model must have a unique name
@@ -76,6 +107,7 @@ class Drink(db.Model):
             drink.insert()
     '''
     def insert(self):
+        self.validate_recipe()
         db.session.add(self)
         db.session.commit()
 
@@ -101,6 +133,7 @@ class Drink(db.Model):
             drink.update()
     '''
     def update(self):
+        self.validate_recipe()
         db.session.commit()
 
     def __repr__(self):
