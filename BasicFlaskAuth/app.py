@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 import json
 from functools import wraps
 from jose import jwt
@@ -7,9 +7,9 @@ from urllib.request import urlopen
 
 app = Flask(__name__)
 
-AUTH0_DOMAIN = @TODO_REPLACE_WITH_YOUR_DOMAIN
+AUTH0_DOMAIN = 'flaskr.us.auth0.com'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = @TODO_REPLACE_WITH_YOUR_API_AUDIENCE
+API_AUDIENCE = 'Image'
 
 
 class AuthError(Exception):
@@ -104,21 +104,38 @@ def verify_decode_jwt(token):
                 'description': 'Unable to find the appropriate key.'
             }, 400)
 
+def check_permission(permission, payload):
+    if 'permissions' not in payload:
+        raise AuthError({
+            'code': 'invalid_header',
+            'description': 'Permissions not found.'
+        }, 400)
+    if permission not in payload['permissions']:
+        raise AuthError({
+            'code': 'invalid_permissions',
+            'description': 'You do not have permission to perform this action.'
+        }, 403)
+    return True
 
-def requires_auth(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        token = get_token_auth_header()
-        try:
+def requires_auth(permission = ''):
+    def requires_auth_decor(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            token = get_token_auth_header()
             payload = verify_decode_jwt(token)
-        except:
-            abort(401)
-        return f(payload, *args, **kwargs)
+            check_permission(permission, payload)
+            return f(payload, *args, **kwargs)
+        return wrapper
+    return requires_auth_decor
 
-    return wrapper
-
-@app.route('/headers')
-@requires_auth
-def headers(payload):
+@app.route('/images')
+@requires_auth('get:images')
+def images(payload):
     print(payload)
-    return 'Access Granted'
+    return 'not implemented'
+
+@app.errorhandler(AuthError)
+def handle_auth_error(ex):
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
