@@ -82,8 +82,8 @@ class Drink(db.Model):
         recipes_json = json.loads(self.recipe)
         recipes = []
 
-        if not isinstance(recipes, list):
-            recipes.append(recipes)
+        if not isinstance(recipes_json, list):
+            recipes.append(recipes_json)
         else:
             recipes = recipes_json
 
